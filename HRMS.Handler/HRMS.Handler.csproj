@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Candidate.Aggregate\HRMS.Aggregate.csproj" />
+    <ProjectReference Include="..\Candidate.Repository\HRMS.Repository.csproj" />
+    <ProjectReference Include="..\HRMS.DTO\HRMS.DTO.csproj" />
+  </ItemGroup>
+
+</Project>
