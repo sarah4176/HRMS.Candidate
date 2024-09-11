@@ -15,5 +15,6 @@ namespace HRMS.Handler
         //void UpdateEmployee(EmployeeDTO employeeDTO);
         //void DeleteEmployee(int id);
         IEnumerable<EmployeeDTO> SearchEmployees(string searchTerm = null);
+       // IEnumerable<EmployeeDTO> GetAllJobs();
     }
 }

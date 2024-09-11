@@ -2,6 +2,7 @@
 using HRMS.Handler;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 
 namespace HRMS.MVC.Controllers
@@ -61,32 +62,43 @@ namespace HRMS.MVC.Controllers
         // GET: Candidate/Edit/5
         public IActionResult Edit(int id)
         {
+            // Fetch candidate by ID
             var candidate = _candidateService.GetCandidateById(id);
             if (candidate == null)
             {
                 return NotFound();
             }
+
+            // Populate job titles for the dropdown
+            var jobs = _candidateService.GetAllCandidates()
+                                        .Select(c => new { c.JobId, c.JobTitle })
+                                        .Distinct() // Ensure unique job titles
+                                        .ToList();
+
+            ViewBag.Jobs = new SelectList(jobs, "JobId", "JobTitle");
+
             return View(candidate);
         }
 
-        // POST: Candidate/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, CandidateDTO candidateDTO)
+        public IActionResult Edit(CandidateDTO candidate)
         {
-            if (id != candidateDTO.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                _candidateService.UpdateCandidate(candidateDTO);
+                _candidateService.UpdateCandidate(candidate);
                 return RedirectToAction(nameof(Index));
             }
-            return View(candidateDTO);
-        }
 
+            // Repopulate the Job dropdown in case of validation errors
+            var jobs = _candidateService.GetAllCandidates()
+                                        .Select(c => new { c.JobId, c.JobTitle })
+                                        .Distinct()
+                                        .ToList();
+
+            ViewBag.Jobs = new SelectList(jobs, "JobId", "JobTitle");
+
+            return View(candidate);
+        }
         // GET: Candidate/Delete/5
         public IActionResult Delete(int id)
         {

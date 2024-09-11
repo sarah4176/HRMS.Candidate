@@ -16,5 +16,8 @@ namespace HRMS.Repository
         void Update(T entity);
         void Delete(int id);
         IEnumerable<T> Find(Expression<Func<T, bool>> predicate);
+        IEnumerable<T> FindIncluding(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties);
+        IEnumerable<T> GetAllIncluding(params Expression<Func<T, object>>[] includeProperties);
+
     }
 }

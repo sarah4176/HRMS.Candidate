@@ -95,6 +95,7 @@
                 <label asp-for="JobId" class="control-label"></label>
                 <select asp-for="JobId" class="form-control" asp-items="ViewBag.Jobs">
                     <option value="">-- Select Job --</option>
+                    <!-- This will be populated with job titles from ViewBag.Jobs -->
                 </select>
                 <span asp-validation-for="JobId" class="text-danger"></span>
             </div>
