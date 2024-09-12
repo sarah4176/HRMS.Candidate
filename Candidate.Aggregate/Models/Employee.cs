@@ -73,6 +73,12 @@ namespace HRMS.Aggregate.Models
                 JobId = candidate.JobId
             };
         }
+        public bool IsValid(out List<ValidationResult> validationResults)
+        {
+            var context = new ValidationContext(this);
+            validationResults = new List<ValidationResult>();
+            return Validator.TryValidateObject(this, context, validationResults, validateAllProperties: true);
+        }
     }
 
 }

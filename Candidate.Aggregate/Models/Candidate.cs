@@ -12,19 +12,19 @@ namespace HRMS.Aggregate.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
-        public string Name { get; set; }
+     
+        public required string Name { get; set; }
         public int NationalIdNumber { get; set; }
-        [Required]
-        public string Address { get; set; }
-        [Required]
-        public string Phone { get; set; }
-        [Required]
-        public string Email { get; set; }
+      
+        public required string Address { get; set; }
+
+        public required string Phone { get; set; }
+     
+        public required string Email { get; set; }
         public DateTime ApplicationDate { get; set; } = DateTime.Now;
         public string? LinkedinProfile { get; set; }
-        [Required]
-        public string ExpectedSalary { get; set; }
+
+        public required string ExpectedSalary { get; set; }
         public string? Status { get; set; }
         public string? ResumePath { get; set; }
         public string? Source { get; set; }
@@ -73,6 +73,12 @@ namespace HRMS.Aggregate.Models
                 Source = dto.Source,
                 JobId = dto.JobId
             };
+        }
+        public bool IsValid(out List<ValidationResult> validationResults)
+        {
+            var context = new ValidationContext(this);
+            validationResults = new List<ValidationResult>();
+            return Validator.TryValidateObject(this, context, validationResults, validateAllProperties: true);
         }
     }
 }

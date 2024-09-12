@@ -1,18 +1,25 @@
-﻿using HRMS.Aggregate.Models;
+﻿using HRMS.Aggregate;
+using HRMS.Aggregate.Models;
 using HRMS.DTO;
 using HRMS.Handler;
 using HRMS.Repository;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 public class CandidateService : ICandidateService
 {
     private readonly IGenericRepository<Candidate> _candidateRepository;
     private readonly IGenericRepository<Employee> _employeeRepository;
+    private readonly IGenericRepository<Job> _jobRepository;
 
     public CandidateService(IGenericRepository<Candidate> candidateRepository,
-                            IGenericRepository<Employee> employeeRepository)
+                            IGenericRepository<Employee> employeeRepository,
+                            IGenericRepository<Job> jobRepository)
     {
         _candidateRepository = candidateRepository;
         _employeeRepository = employeeRepository;
+        _jobRepository = jobRepository;
     }
 
     public IEnumerable<CandidateDTO> GetAllCandidates(string searchTerm = null)
@@ -31,20 +38,31 @@ public class CandidateService : ICandidateService
         var candidate = _candidateRepository.FindIncluding(c => c.Id == id, c => c.Job).FirstOrDefault();
         if (candidate == null)
         {
-            throw new System.Exception("Candidate not found.");
+            throw new KeyNotFoundException("Candidate not found.");
         }
+
         return candidate.ToDTO();
     }
 
     public void AddCandidate(CandidateDTO candidateDTO)
     {
         var candidate = Candidate.FromDTO(candidateDTO);
+        if (!candidate.IsValid(out var validationResults))
+        {
+            throw new ValidationException("Candidate validation failed.");
+        }
+
         _candidateRepository.Add(candidate);
     }
 
     public void UpdateCandidate(CandidateDTO candidateDTO)
     {
         var candidate = Candidate.FromDTO(candidateDTO);
+        if (!candidate.IsValid(out var validationResults))
+        {
+            throw new ValidationException("Candidate validation failed.");
+        }
+
         _candidateRepository.Update(candidate);
     }
 
@@ -53,7 +71,7 @@ public class CandidateService : ICandidateService
         var candidate = _candidateRepository.GetById(candidateId);
         if (candidate == null)
         {
-            throw new System.Exception("Candidate not found.");
+            throw new KeyNotFoundException("Candidate not found.");
         }
 
         var employee = Employee.FromCandidate(candidate); // Use the FromCandidate method for direct mapping
@@ -62,8 +80,15 @@ public class CandidateService : ICandidateService
 
     public void DeleteCandidate(int id)
     {
+        var candidate = _candidateRepository.GetById(id);
+        if (candidate == null)
+        {
+            throw new KeyNotFoundException("Candidate not found.");
+        }
+
         _candidateRepository.Delete(id);
     }
+
     public IEnumerable<CandidateDTO> SearchCandidates(string searchTerm = null)
     {
         var candidates = string.IsNullOrEmpty(searchTerm)
@@ -74,5 +99,22 @@ public class CandidateService : ICandidateService
 
         return candidates.Select(c => c.ToDTO()); // Use the ToDTO method in Candidate model
     }
+    public IEnumerable<JobDTO> GetJobList()
+    {
+
+        return _jobRepository.GetAll()  
+                             .Select(job => new JobDTO
+                             {
+                                 Id = job.Id,
+                                 Title = job.Title ?? string.Empty,
+                                 SalaryRange = job.SalaryRange ?? string.Empty,
+                                 Requirements = job.Requirements ?? string.Empty,
+                                 EmploymentType = job.EmploymentType ?? string.Empty,
+                                 Department = job.Department ?? string.Empty
+                             })
+                             .Distinct()
+                             .ToList();
+    }
+
 
 }

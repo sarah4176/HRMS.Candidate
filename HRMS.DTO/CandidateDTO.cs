@@ -9,14 +9,19 @@ namespace HRMS.DTO
     public class CandidateDTO
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+     
+        public required string Name { get; set; }
         public int NationalIdNumber { get; set; }
-        public string Address { get; set; }
-        public string Phone { get; set; }
-        public string Email { get; set; }
-        public DateTime ApplicationDate { get; set; }
+      
+        public required string Address { get; set; }
+
+        public required string Phone { get; set; }
+     
+        public required string Email { get; set; }
+        public DateTime ApplicationDate { get; set; } = DateTime.Now;
         public string? LinkedinProfile { get; set; }
-        public string ExpectedSalary { get; set; }
+
+        public required string ExpectedSalary { get; set; }
         public string? Status { get; set; }
         public string? ResumePath { get; set; }
         public string? Source { get; set; }

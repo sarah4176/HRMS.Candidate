@@ -9,14 +9,19 @@ namespace HRMS.DTO
     public class EmployeeDTO
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+
+        public required string Name { get; set; }
         public int NationalIdNumber { get; set; }
-        public string Address { get; set; }
-        public string Phone { get; set; }
-        public string Email { get; set; }
-        public DateTime HireDate { get; set; }
+
+        public required string Address { get; set; }
+
+        public required string Phone { get; set; }
+
+        public required string Email { get; set; }
+        public DateTime HireDate { get; set; } = DateTime.Now;
         public string? Position { get; set; }
-        public string Salary { get; set; }
+
+        public required string Salary { get; set; }
         public int? JobId { get; set; }
         public string? JobTitle { get; set; }
     }

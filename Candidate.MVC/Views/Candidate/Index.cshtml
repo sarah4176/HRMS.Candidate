@@ -1,21 +1,21 @@
 ﻿@model IEnumerable<HRMS.DTO.CandidateDTO>
 
 @{
-    ViewBag.Title = "Candidates";
+    ViewData["Title"] = "Candidates";
 }
 
-<h2>Candidates</h2>
+<h1>Candidates</h1>
 
-<form method="get" asp-action="Index">
-    <input type="text" name="searchTerm" value="@ViewData["CurrentFilter"]" placeholder="Search Candidates" />
-    <input type="submit" value="Search" />
+<form asp-action="Index" method="get">
+    <input type="text" name="searchTerm" value="@ViewData["SearchTerm"]" placeholder="Search candidates..." />
+    <button type="submit">Search</button>
 </form>
 
 <table class="table">
     <thead>
         <tr>
             <th>Name</th>
-            <th>National ID</th>
+            <th>National ID Number</th>
             <th>Address</th>
             <th>Phone</th>
             <th>Email</th>
@@ -40,15 +40,14 @@
                 <td>@candidate.Status</td>
                 <td>@candidate.JobTitle</td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@candidate.Id">Details</a> |
                     <a asp-action="Edit" asp-route-id="@candidate.Id">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@candidate.Id">Delete</a> |
-                    <form asp-action="ExportToEmployee" method="post" style="display:inline">
-                        <input type="hidden" name="id" value="@candidate.Id" />
-                        <input type="submit" value="Export to Employee" class="btn-link" />
-                    </form>
+                    <a asp-action="Delete" asp-route-id="@candidate.Id">Delete</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<p>
+    <a asp-action="Create">Create New Candidate</a>
+</p>

@@ -1,6 +1,7 @@
 using FluentAssertions.Common;
 using HRMS.Aggregate;
 using HRMS.Handler;
+using HRMS.MVC;
 using HRMS.Repository;
 
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +38,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 

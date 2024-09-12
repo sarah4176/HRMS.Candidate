@@ -57,6 +57,7 @@ namespace HRMS.Repository
                 _context.SaveChanges();
             }
         }
+
         public IEnumerable<T> FindIncluding(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
         {
             IQueryable<T> query = _context.Set<T>();

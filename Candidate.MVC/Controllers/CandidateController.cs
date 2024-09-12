@@ -1,9 +1,7 @@
 ﻿using HRMS.DTO;
-using HRMS.Handler;
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Collections.Generic;
+using System.Linq;
 
 namespace HRMS.MVC.Controllers
 {
@@ -19,95 +17,54 @@ namespace HRMS.MVC.Controllers
         // GET: Candidate
         public IActionResult Index(string searchTerm)
         {
-            IEnumerable<CandidateDTO> candidates = _candidateService.GetAllCandidates(searchTerm);
-            return View(candidates);
-        }
-        public IActionResult Search(string searchTerm)
-        {
-            IEnumerable<CandidateDTO> candidates = _candidateService.SearchCandidates(searchTerm);
+            var candidates = _candidateService.GetAllCandidates(searchTerm);
+            ViewData["SearchTerm"] = searchTerm;  // Pass search term to view
             return View(candidates);
         }
 
-
-        // GET: Candidate/Details/5
-        public IActionResult Details(int id)
-        {
-            var candidate = _candidateService.GetCandidateById(id);
-            if (candidate == null)
-            {
-                return NotFound();
-            }
-            return View(candidate);
-        }
 
         // GET: Candidate/Create
         public IActionResult Create()
         {
+            var jobs = _candidateService.GetJobList();
+            ViewBag.Jobs = new SelectList(jobs, "Id", "Title");
             return View();
         }
+
 
         // POST: Candidate/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(CandidateDTO candidateDTO)
         {
-            if (ModelState.IsValid)
-            {
-                _candidateService.AddCandidate(candidateDTO);
-                return RedirectToAction(nameof(Index));
-            }
-            return View(candidateDTO);
+            _candidateService.AddCandidate(candidateDTO);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Candidate/Edit/5
         public IActionResult Edit(int id)
         {
-            // Fetch candidate by ID
             var candidate = _candidateService.GetCandidateById(id);
-            if (candidate == null)
-            {
-                return NotFound();
-            }
-
-            // Populate job titles for the dropdown
-            var jobs = _candidateService.GetAllCandidates()
-                                        .Select(c => new { c.JobId, c.JobTitle })
-                                        .Distinct() // Ensure unique job titles
-                                        .ToList();
-
-            ViewBag.Jobs = new SelectList(jobs, "JobId", "JobTitle");
-
+            var jobs = _candidateService.GetJobList();
+            ViewBag.Jobs = new SelectList(jobs, "Id", "Title");
             return View(candidate);
         }
 
+        // POST: Candidate/Edit/5
         [HttpPost]
-        public IActionResult Edit(CandidateDTO candidate)
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(CandidateDTO candidateDTO)
         {
-            if (ModelState.IsValid)
-            {
-                _candidateService.UpdateCandidate(candidate);
-                return RedirectToAction(nameof(Index));
-            }
-
-            // Repopulate the Job dropdown in case of validation errors
-            var jobs = _candidateService.GetAllCandidates()
-                                        .Select(c => new { c.JobId, c.JobTitle })
-                                        .Distinct()
-                                        .ToList();
-
-            ViewBag.Jobs = new SelectList(jobs, "JobId", "JobTitle");
-
-            return View(candidate);
+            _candidateService.UpdateCandidate(candidateDTO);
+            return RedirectToAction(nameof(Index));
         }
+
+        // GET: Candidate/Delete/5
         // GET: Candidate/Delete/5
         public IActionResult Delete(int id)
         {
             var candidate = _candidateService.GetCandidateById(id);
-            if (candidate == null)
-            {
-                return NotFound();
-            }
-            return View(candidate);
+            return View(candidate);  // No need for try/catch here as service handles it
         }
 
         // POST: Candidate/Delete/5
@@ -118,6 +75,8 @@ namespace HRMS.MVC.Controllers
             _candidateService.DeleteCandidate(id);
             return RedirectToAction(nameof(Index));
         }
+
+
 
         // POST: Candidate/ExportToEmployee/5
         [HttpPost]

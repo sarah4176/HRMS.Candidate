@@ -6,115 +6,64 @@
 
 <h1>Create Candidate</h1>
 
-<h4>Candidate</h4>
-<hr />
-<div class="row">
-    <div class="col-md-6">
-        <form asp-action="Create">
-            <!-- Name -->
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-
-            <!-- National ID Number -->
-            <div class="form-group">
-                <label asp-for="NationalIdNumber" class="control-label"></label>
-                <input asp-for="NationalIdNumber" class="form-control" />
-                <span asp-validation-for="NationalIdNumber" class="text-danger"></span>
-            </div>
-
-            <!-- Address -->
-            <div class="form-group">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-
-            <!-- Phone -->
-            <div class="form-group">
-                <label asp-for="Phone" class="control-label"></label>
-                <input asp-for="Phone" class="form-control" />
-                <span asp-validation-for="Phone" class="text-danger"></span>
-            </div>
-
-            <!-- Email -->
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-
-            <!-- Application Date -->
-            <div class="form-group">
-                <label asp-for="ApplicationDate" class="control-label"></label>
-                <input asp-for="ApplicationDate" class="form-control" type="date" />
-                <span asp-validation-for="ApplicationDate" class="text-danger"></span>
-            </div>
-
-            <!-- LinkedIn Profile -->
-            <div class="form-group">
-                <label asp-for="LinkedinProfile" class="control-label"></label>
-                <input asp-for="LinkedinProfile" class="form-control" />
-                <span asp-validation-for="LinkedinProfile" class="text-danger"></span>
-            </div>
-
-            <!-- Expected Salary -->
-            <div class="form-group">
-                <label asp-for="ExpectedSalary" class="control-label"></label>
-                <input asp-for="ExpectedSalary" class="form-control" type="number" step="0.01" />
-                <span asp-validation-for="ExpectedSalary" class="text-danger"></span>
-            </div>
-
-            <!-- Status -->
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <select asp-for="Status" class="form-control">
-                    <option value="">-- Select Status --</option>
-                    <option value="Applied">Applied</option>
-                    <option value="Interviewing">Interviewing</option>
-                    <option value="Hired">Hired</option>
-                    <option value="Rejected">Rejected</option>
-                </select>
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-
-            <!-- Source -->
-            <div class="form-group">
-                <label asp-for="Source" class="control-label"></label>
-                <input asp-for="Source" class="form-control" />
-                <span asp-validation-for="Source" class="text-danger"></span>
-            </div>
-
-            <!-- Job Selection -->
-            <div class="form-group">
-                <label asp-for="JobId" class="control-label"></label>
-                <select asp-for="JobId" class="form-control" asp-items="ViewBag.Jobs">
-                    <option value="">-- Select Job --</option>
-                </select>
-                <span asp-validation-for="JobId" class="text-danger"></span>
-            </div>
-
-            <!-- Resume Path -->
-            <div class="form-group">
-                <label asp-for="ResumePath" class="control-label"></label>
-                <input asp-for="ResumePath" class="form-control" />
-                <span asp-validation-for="ResumePath" class="text-danger"></span>
-            </div>
-
-            <!-- Submit Buttons -->
-            <div class="form-group mt-3">
-                <input type="submit" value="Create" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-            </div>
-        </form>
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
     </div>
-</div>
 
-<!-- Validation Scripts -->
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
+    <div class="form-group">
+        <label asp-for="NationalIdNumber"></label>
+        <input asp-for="NationalIdNumber" class="form-control" />
+        <span asp-validation-for="NationalIdNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Address"></label>
+        <input asp-for="Address" class="form-control" />
+        <span asp-validation-for="Address" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Phone"></label>
+        <input asp-for="Phone" class="form-control" />
+        <span asp-validation-for="Phone" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ApplicationDate"></label>
+        <input asp-for="ApplicationDate" type="date" class="form-control" />
+        <span asp-validation-for="ApplicationDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ExpectedSalary"></label>
+        <input asp-for="ExpectedSalary" class="form-control" />
+        <span asp-validation-for="ExpectedSalary" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Status"></label>
+        <input asp-for="Status" class="form-control" />
+        <span asp-validation-for="Status" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+    <label asp-for="JobId" class="control-label"></label>
+    <select asp-for="JobId" asp-items="@(ViewBag.Jobs as SelectList)" class="form-control">
+        <option value="">Select Job</option>
+    </select>
+    <span asp-validation-for="JobId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
+
+<a asp-action="Index">Back to List</a>

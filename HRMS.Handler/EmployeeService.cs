@@ -33,7 +33,7 @@ public class EmployeeService : IEmployeeService
         var employee = _employeeRepository.GetById(id);
         if (employee == null)
         {
-            throw new System.Exception("Employee not found.");
+            throw new KeyNotFoundException("Employee not found.");
         }
 
         return employee.ToDTO();

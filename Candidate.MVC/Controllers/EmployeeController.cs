@@ -29,15 +29,10 @@ namespace HRMS.MVC.Controllers
 
         // GET: Employee/Details/5
         public IActionResult Details(int id)
-            {
-                var employee = _employeeService.GetEmployeeById(id);
-                if (employee == null)
-                {
-                    return NotFound();
-                }
-                return View(employee);
-            }
-    
+        {
+            var employee = _employeeService.GetEmployeeById(id);
+            return View(employee);
+        }
 
         //// GET: Employee/Create
         //public IActionResult Create()
