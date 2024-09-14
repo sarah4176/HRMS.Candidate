@@ -40,24 +40,28 @@ namespace HRMS.MVC.Controllers
             _candidateService.AddCandidate(candidateDTO);
             return RedirectToAction(nameof(Index));
         }
-
-        // GET: Candidate/Edit/5
-        public IActionResult Edit(int id)
+        [HttpGet]
+        [ActionName("EditCandidate")]
+        public IActionResult EditGet(int id)
         {
             var candidate = _candidateService.GetCandidateById(id);
             var jobs = _candidateService.GetJobList();
             ViewBag.Jobs = new SelectList(jobs, "Id", "Title");
-            return View(candidate);
+
+            return View("EditCandidate", candidate);  // Ensure the correct view name is passed
         }
 
-        // POST: Candidate/Edit/5
         [HttpPost]
+        [ActionName("EditCandidate")]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(CandidateDTO candidateDTO)
+        public IActionResult EditPost(CandidateDTO candidateDTO)
         {
             _candidateService.UpdateCandidate(candidateDTO);
             return RedirectToAction(nameof(Index));
         }
+
+
+
 
         // GET: Candidate/Delete/5
         // GET: Candidate/Delete/5
@@ -78,12 +82,12 @@ namespace HRMS.MVC.Controllers
 
 
 
-        // POST: Candidate/ExportToEmployee/5
-        [HttpPost]
-        public IActionResult ExportToEmployee(int id)
-        {
-            _candidateService.ExportToEmployee(id);
-            return RedirectToAction("Index", "Employee");
-        }
+        //// POST: Candidate/ExportToEmployee/5
+        //[HttpPost]
+        //public IActionResult ExportToEmployee(int id)
+        //{
+        //    _candidateService.ExportToEmployee(id);
+        //    return RedirectToAction("Index", "Employee");
+        //}
     }
 }

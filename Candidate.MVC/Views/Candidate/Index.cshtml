@@ -40,7 +40,8 @@
                 <td>@candidate.Status</td>
                 <td>@candidate.JobTitle</td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@candidate.Id">Edit</a> |
+                    <a asp-action="ExportToEmployee" asp-route-id="@candidate.Id">Export to Employee</a>
+                    <a asp-action="EditCandidate" asp-route-id="@candidate.Id">Edit</a> |
                     <a asp-action="Delete" asp-route-id="@candidate.Id">Delete</a>
                 </td>
             </tr>

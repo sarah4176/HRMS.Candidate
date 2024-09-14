@@ -6,7 +6,7 @@
 
 <h1>Edit Candidate</h1>
 
-<form asp-action="Edit" method="post">
+<form asp-action="EditCandidate" method="post">
     <div class="form-group">
         <label asp-for="Name"></label>
         <input asp-for="Name" class="form-control" />
@@ -56,7 +56,7 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="JobId" class="control-label"></label>
+        <label asp-for="JobId" class="control-label">Select Job</label>
         <select asp-for="JobId" asp-items="@(ViewBag.Jobs as SelectList)" class="form-control">
             <option value="">Select Job</option>
         </select>

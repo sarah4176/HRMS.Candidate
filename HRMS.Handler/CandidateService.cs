@@ -33,9 +33,9 @@ public class CandidateService : ICandidateService
         return candidates.Select(c => c.ToDTO());
     }
 
-    public CandidateDTO GetCandidateById(int id)
+    public CandidateDTO GetCandidateById(int id) //use object
     {
-        var candidate = _candidateRepository.FindIncluding(c => c.Id == id, c => c.Job).FirstOrDefault();
+        var candidate = _candidateRepository.FindIncluding(c => c.Id == id, c => c.Job).FirstOrDefault();  //
         if (candidate == null)
         {
             throw new KeyNotFoundException("Candidate not found.");
@@ -66,9 +66,9 @@ public class CandidateService : ICandidateService
         _candidateRepository.Update(candidate);
     }
 
-    public void ExportToEmployee(int candidateId)
+    public void ExportToEmployee(CandidateDTO candidatedto)
     {
-        var candidate = _candidateRepository.GetById(candidateId);
+        var candidate = _candidateRepository.GetById(candidatedto.Id);
         if (candidate == null)
         {
             throw new KeyNotFoundException("Candidate not found.");

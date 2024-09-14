@@ -11,8 +11,7 @@ public interface ICandidateService
 
     void UpdateCandidate(CandidateDTO candidateDTO);
 
-    void ExportToEmployee(int candidateId);
-
+    void ExportToEmployee(CandidateDTO candidateDTO);
     void DeleteCandidate(int id);
 
     IEnumerable<CandidateDTO> SearchCandidates(string searchTerm = null);
